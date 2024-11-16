@@ -1,0 +1,306 @@
+{
+	"info": {
+		"_postman_id": "7049253c-fca0-4190-8e1e-5ad8801bf31f",
+		"name": "VAmPI-LoginAndJwtToken-Tests-Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3304285"
+	},
+	"item": [
+		{
+			"name": "Validate token",
+			"item": [
+				{
+					"name": "Log in",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"\r",
+									"pm.test('Response has the auth_token property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('auth_token');\r",
+									"    pm.environment.set(\"auth_token\", jsonData.auth_token);\r",
+									"});\r",
+									"\r",
+									"pm.test('Decode JWT authentication token', function () {\r",
+									"    let atob = require('atob');\r",
+									"    let token = pm.environment.get(\"auth_token\");\r",
+									"    let tokenParts = token.split('.');\r",
+									"    let header = tokenParts[0];\r",
+									"    let payload = tokenParts[1];\r",
+									"    let signature = tokenParts[2];\r",
+									"    let decodedBase64Payload = atob(payload);\r",
+									"    let decodedBase64Header = atob(header);\r",
+									"    let parseJsonPayload = JSON.parse(decodedBase64Payload);\r",
+									"    let parseJsonHeader = JSON.parse(decodedBase64Header);\r",
+									"\r",
+									"    let issuedAt = Number(parseJsonPayload.iat);\r",
+									"    let expiration = Number(parseJsonPayload.exp);\r",
+									"    let difference = expiration - issuedAt;\r",
+									"    let user = parseJsonPayload.sub;\r",
+									"    let algorithm = parseJsonHeader.alg;\r",
+									"    let type = parseJsonHeader.typ;\r",
+									"\r",
+									"    pm.expect(difference).to.be.equal(60);\r",
+									"    pm.expect(user).to.be.equal(pm.environment.get(\"username\"));\r",
+									"    pm.expect(algorithm).to.be.equal('HS256');\r",
+									"    pm.expect(type).to.be.equal('JWT');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"{{password}}\",\r\n    \"username\": \"{{username}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/users/v1/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Validate token expiration time",
+			"item": [
+				{
+					"name": "Log in",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const token = pm.environment.get(\"auth_token\");\r",
+									"const tokenParts = token.split('.');\r",
+									"const payload = tokenParts[1];\r",
+									"const decodedBase64Payload = atob(payload);\r",
+									"const parseJsonPayload = JSON.parse(decodedBase64Payload);\r",
+									"const expiration = Number(parseJsonPayload.exp);\r",
+									"\r",
+									"pm.test('Response has the auth_token property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('auth_token');\r",
+									"    pm.environment.set(\"auth_token\", jsonData.auth_token);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if token has not expired\", function() {\r",
+									"    const currentTime = Math.floor(Date.now() / 1000);\r",
+									"\r",
+									"    pm.expect(expiration).to.be.not.eql(currentTime); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Token should expire within 1 hour\", function() {\r",
+									"    const currentTime = Math.floor(Date.now() / 1000);\r",
+									"\r",
+									"    pm.expect(parseJsonPayload.exp).to.be.lessThan(currentTime + 3600);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"{{password}}\",\r\n    \"username\": \"{{username}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/users/v1/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Refresh Token Flow",
+			"item": [
+				{
+					"name": "Refresh Token Flow",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const token = pm.environment.get(\"auth_token\");\r",
+									"const tokenParts = token.split('.');\r",
+									"const payload = tokenParts[1];\r",
+									"const decodedBase64Payload = atob(payload);\r",
+									"const parseJsonPayload = JSON.parse(decodedBase64Payload);\r",
+									"const expiration = Number(parseJsonPayload.exp);\r",
+									"\r",
+									"pm.test(\"Check if token was refreshed\", function() {\r",
+									"    pm.environment.set(\"refreshed_auth_token\", jsonData.auth_token);\r",
+									"\r",
+									"    const refreshed_auth_token_expiration = Number(JSON.parse(atob(pm.environment.get(\"refreshed_auth_token\").split('.')[1])).exp);\r",
+									"\r",
+									"    pm.expect(expiration).to.be.greaterThan(1);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"{{password}}\",\r\n    \"username\": \"{{username}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/users/v1/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Add book with expired token",
+			"item": [
+				{
+					"name": "Add book with expired token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const headers = response.headers;\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.expect(response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('Response is a JSON object', function () {\r",
+									"    pm.expect(jsonData).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the status property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the message property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"});\r",
+									"\r",
+									"pm.test('Content-Type should header be application/JSON', function () {\r",
+									"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"// FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"pm.test('status property has the appropriate value', function () {\r",
+									"    pm.expect(jsonData.status).to.eql('fail');\r",
+									"});\r",
+									"\r",
+									"pm.test('message property has the appropriate value', function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Signature expired. Please log in again.');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjczODQ5MzUsImlhdCI6MTcyNzM4NDg3NSwic3ViIjoibmFtZTE3MiJ9.Anb-6YJmcZf3fBVbhE_stO0r1zD25ilR9M83zZAXM2U",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"book_title\": \"temp\",\r\n  \"secret\": \"secret\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/books/v1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books",
+								"v1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
