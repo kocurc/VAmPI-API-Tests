@@ -1,0 +1,3099 @@
+{
+	"info": {
+		"_postman_id": "98a19bfb-67de-4c1f-bc86-08effe3b285c",
+		"name": "VAmPI-Tests-Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3304285"
+	},
+	"item": [
+		{
+			"name": "Home",
+			"item": [
+				{
+					"name": "Validate Home address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const headers = response.headers;\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.expect(response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Response is a JSON object', function () {\r",
+									"    pm.expect(jsonData).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the help property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('help');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the message property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the vulnerable property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('vulnerable');\r",
+									"});\r",
+									"\r",
+									"pm.test('Content-Type should header be application/JSON', function () {\r",
+									"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"// SECURITY TESTING - Checking OWASP Top 10 API Security Risks – 2023\r",
+									"/*\r",
+									"pm.test('Server header does not reveal used technologies', function () {\r",
+									"    pm.expect(headers.get('Server')).does.not.contain('Werkzeug/');\r",
+									"    pm.expect(headers.get('Server')).does.not.contain('Python/');\r",
+									"});\r",
+									"*/\r",
+									"// FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"pm.test('help property has appropriate value', function () {\r",
+									"    pm.expect(jsonData.help).to.eql('VAmPI is a vulnerable on purpose API. It was created in order to evaluate the efficiency of third party tools in identifying vulnerabilities in APIs but it can also be used in learning/teaching purposes.');\r",
+									"});\r",
+									"\r",
+									"pm.test('message property has appropriate value', function () {\r",
+									"    pm.expect(jsonData.message).to.eql('VAmPI the Vulnerable API');\r",
+									"});\r",
+									"\r",
+									"pm.test('vulnerable property has appropriate value', function () {\r",
+									"    pm.expect(jsonData.vulnerable).to.eql(1);\r",
+									"});\r",
+									"\r",
+									"// PERFORMANCE TESTING - Latency testing\r",
+									"\r",
+									"pm.test('Response time is within acceptable range 1-200 ms', function () {\r",
+									"    pm.expect(response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}",
+							"host": [
+								"{{BaseUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Errors handling",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const headers = response.headers;\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 405', function () {\r",
+									"    pm.expect(response).to.have.status(405);\r",
+									"});\r",
+									"\r",
+									"pm.test('Response is a JSON object', function () {\r",
+									"    pm.expect(jsonData).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the detail property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('detail');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the status property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the title property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('title');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the type property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('type');\r",
+									"});\r",
+									"\r",
+									"pm.test('Content-Type header should be application/problem+JSON', function () {\r",
+									"    pm.expect(headers.get('Content-Type')).to.eql('application/problem+json');\r",
+									"});\r",
+									"\r",
+									"// FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"pm.test('detail property has appropriate value', function () {\r",
+									"    pm.expect(jsonData.detail).to.eql('The method is not allowed for the requested URL.');\r",
+									"});\r",
+									"\r",
+									"pm.test('status property has appropriate value', function () {\r",
+									"    pm.expect(jsonData.status).to.eql(405);\r",
+									"});\r",
+									"\r",
+									"pm.test('title property has appropriate value', function () {\r",
+									"    pm.expect(jsonData.title).to.eql('Method Not Allowed');\r",
+									"});\r",
+									"\r",
+									"pm.test('type property has appropriate value', function () {\r",
+									"    pm.expect(jsonData.type).to.eql('about:blank');\r",
+									"});\r",
+									"\r",
+									"pm.test('Allow header should contain available HTTP methods', function () {\r",
+									"    pm.expect(headers.get('Allow')).contain('GET').contain('OPTIONS').contain('HEAD');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}",
+							"host": [
+								"{{BaseUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate HEAD method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const headers = response.headers;\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.expect(response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Content-Type header should be application/json', function () {\r",
+									"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response body is empty', function () {\r",
+									"    pm.expect(response.text()).is.eql('');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "HEAD",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}",
+							"host": [
+								"{{BaseUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate OPTIONS method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const headers = response.headers;\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.expect(response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Content-Type header should be text/html; charset=utf-8', function () {\r",
+									"    pm.expect(headers.get('Content-Type')).to.eql('text/html; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response body is empty', function () {\r",
+									"    pm.expect(response.text()).is.eql('');\r",
+									"});\r",
+									"\r",
+									"// FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"pm.test('Allow header should contain GET, OPTIONS and HEAD methods', function () {\r",
+									"    let allowMethods = headers.get('Allow');\r",
+									"    let allowMethodsArray = allowMethods.replace(' ', '').split(',');\r",
+									"    \r",
+									"    pm.expect(allowMethods).contain('GET');\r",
+									"    pm.expect(allowMethods).contain('OPTIONS');\r",
+									"    pm.expect(allowMethods).contain('HEAD');\r",
+									"    pm.expect(allowMethodsArray).is.length(3);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}",
+							"host": [
+								"{{BaseUrl}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Retrieve all books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const headers = response.headers;\r",
+									"const books = jsonData.Books;\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.expect(response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Response is a JSON object', function () {\r",
+									"    pm.expect(jsonData).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the Books property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('Books');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the Books array', function () {\r",
+									"    pm.expect(jsonData).to.have.property('Books');\r",
+									"    pm.expect(books).to.be.an('array').with.length.greaterThan(0);\r",
+									"});\r",
+									"\r",
+									"pm.test('Book has the properties - book_title and user', function () {\r",
+									"        pm.expect(books[0]).to.have.property('book_title');\r",
+									"        pm.expect(books[0]).to.have.property('user');\r",
+									"});\r",
+									"\r",
+									"// FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"pm.test('book_title property is not empty', function () {\r",
+									"    pm.expect(books[0].book_title).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test('user property is not empty', function () {\r",
+									"    pm.expect(books[0].user).to.not.be.empty;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/books/v1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books",
+								"v1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "_debug",
+					"item": [
+						{
+							"name": "Retrieves all details for all users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+											"\r",
+											"// VULNERABILITY Wycieki informacji:\r",
+											"/*\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.expect(pm.response).to.have.status(403);\r",
+											"});\r",
+											"*/"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BaseUrl}}/users/v1/_debug",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"users",
+										"v1",
+										"_debug"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Login to VAmPI",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response;\r",
+											"const jsonData = response.json();\r",
+											"const headers = response.headers;\r",
+											"\r",
+											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.expect(response).to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response is a JSON object', function () {\r",
+											"    pm.expect(jsonData).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the message property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the status property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('status');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the auth_token property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('auth_token');\r",
+											"});\r",
+											"\r",
+											"pm.test('Content-Type should header be application/JSON', function () {\r",
+											"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+											"});\r",
+											"\r",
+											"// FUNCTIONAL TESTS - Validate input and output values\r",
+											"\r",
+											"pm.test('auth_token property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.auth_token).to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test('message property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.message).to.eql('Successfully logged in.');\r",
+											"});\r",
+											"\r",
+											"pm.test('status property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.status).to.eql('success');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\": \"{{password}}\",\r\n    \"username\": \"{{username}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseUrl}}/users/v1/login",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"users",
+										"v1",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Login to VAmPI",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"password\": \"{{password}}\",\r\n    \"username\": \"{{username}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/login",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "Werkzeug/2.2.3 Python/3.11.9"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 03 Sep 2024 08:30:14 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "224"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"auth_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjUzNTIyNzQsImlhdCI6MTcyNTM1MjIxNCwic3ViIjoibmFtZTEifQ.9fXYJgvuzj1G7eXam8qClDkHFFu5n3L5GfRjn-FlygM\",\n    \"message\": \"Successfully logged in.\",\n    \"status\": \"success\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Invalid user password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response;\r",
+											"const jsonData = response.json();\r",
+											"const headers = response.headers;\r",
+											"\r",
+											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.expect(response).to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response is a JSON object', function () {\r",
+											"    pm.expect(jsonData).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the status property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('status');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the message property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"pm.test('Content-Type should header be application/JSON', function () {\r",
+											"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+											"});\r",
+											"\r",
+											"// FUNCTIONAL TESTS - Validate input and output values\r",
+											"\r",
+											"pm.test('message property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.message).to.eql('Password is not correct for the given username.');\r",
+											"});\r",
+											"\r",
+											"pm.test('status property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.status).to.eql('fail');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\": \"\",\r\n    \"username\": \"{{username}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseUrl}}/users/v1/login",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"users",
+										"v1",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response;\r",
+											"const jsonData = response.json();\r",
+											"const headers = response.headers;\r",
+											"\r",
+											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.expect(response).to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response is a JSON object', function () {\r",
+											"    pm.expect(jsonData).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the status property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('status');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the message property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"pm.test('Content-Type should header be application/JSON', function () {\r",
+											"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+											"});\r",
+											"\r",
+											"// FUNCTIONAL TESTS - Validate input and output values\r",
+											"\r",
+											"pm.test('message property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.message).to.eql('Username does not exist');\r",
+											"});\r",
+											"\r",
+											"pm.test('status property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.status).to.eql('fail');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\": \"{{password}}\",\r\n    \"username\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseUrl}}/users/v1/login",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"users",
+										"v1",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Try to login with empty body - security testing",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response;\r",
+											"const jsonData = response.json();\r",
+											"const headers = response.headers;\r",
+											"\r",
+											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+											"\r",
+											"pm.test('Status code is 400', function () {\r",
+											"    pm.expect(response).to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response is a JSON object', function () {\r",
+											"    pm.expect(jsonData).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Content-Type should header be application/JSON', function () {\r",
+											"    pm.expect(headers.get('Content-Type')).to.eql('application/problem+json');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the detail property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('detail');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the status property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('status');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the title property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('title');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the type property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('type');\r",
+											"});\r",
+											"\r",
+											"// FUNCTIONAL TESTS - Validate input and output values\r",
+											"\r",
+											"pm.test('message property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.detail).to.eql(\"None is not of type 'object'\");\r",
+											"});\r",
+											"\r",
+											"pm.test('status property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.status).to.eql(400);\r",
+											"});\r",
+											"pm.test('message property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.title).to.eql('Bad Request');\r",
+											"});\r",
+											"\r",
+											"pm.test('status property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.type).to.eql('about:blank');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseUrl}}/users/v1/login",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"users",
+										"v1",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Register",
+					"item": [
+						{
+							"name": "Register new user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response;\r",
+											"const jsonData = response.json();\r",
+											"const headers = response.headers;\r",
+											"\r",
+											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.expect(response).to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response is a JSON object', function () {\r",
+											"    pm.expect(jsonData).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the message property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the status property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('status');\r",
+											"});\r",
+											"\r",
+											"pm.test('Content-Type should header be application/JSON', function () {\r",
+											"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+											"});\r",
+											"\r",
+											"// FUNCTIONAL TESTS - Validate input and output values\r",
+											"\r",
+											"pm.test('message property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.message).to.eql('Successfully registered. Login to receive an auth token.');\r",
+											"});\r",
+											"\r",
+											"pm.test('status property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.status).to.eql('success');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"user@tempmail.com\",\r\n    \"password\": \"pass17\",\r\n    \"username\": \"name17\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseUrl}}/users/v1/register",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"users",
+										"v1",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Try to register existing user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response;\r",
+											"const jsonData = response.json();\r",
+											"const headers = response.headers;\r",
+											"\r",
+											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.expect(response).to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response is a JSON object', function () {\r",
+											"    pm.expect(jsonData).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the message property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the status property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('status');\r",
+											"});\r",
+											"\r",
+											"pm.test('Content-Type should header be application/JSON', function () {\r",
+											"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+											"});\r",
+											"\r",
+											"// FUNCTIONAL TESTS - Validate input and output values\r",
+											"\r",
+											"pm.test('message property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.message).to.eql('User already exists. Please Log in.');\r",
+											"});\r",
+											"\r",
+											"pm.test('status property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.status).to.eql('fail');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"user@tempmail.com\",\r\n    \"password\": \"pass17\",\r\n    \"username\": \"name17\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseUrl}}/users/v1/register",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"users",
+										"v1",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Try to register user with empty username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response;\r",
+											"const jsonData = response.json();\r",
+											"const headers = response.headers;\r",
+											"\r",
+											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.expect(response).to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"user@tempmail.com\",\r\n    \"password\": \"pass17\",\r\n    \"username\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseUrl}}/users/v1/register",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"users",
+										"v1",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Try to register user without password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response;\r",
+											"const jsonData = response.json();\r",
+											"const headers = response.headers;\r",
+											"\r",
+											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+											"\r",
+											"pm.test('Status code is 400', function () {\r",
+											"    pm.expect(response).to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response is a JSON object', function () {\r",
+											"    pm.expect(jsonData).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the message property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the status property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('status');\r",
+											"});\r",
+											"\r",
+											"pm.test('Content-Type should header be application/JSON', function () {\r",
+											"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+											"});\r",
+											"\r",
+											"// FUNCTIONAL TESTS - Validate input and output values\r",
+											"\r",
+											"pm.test('message property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.message).to.eql('\\'password\\' is a required property');\r",
+											"});\r",
+											"\r",
+											"pm.test('status property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.status).to.eql('fail');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"user2@tempmail.com\",\r\n    \"username\": \"user2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseUrl}}/users/v1/register",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"users",
+										"v1",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Try to register user without username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response;\r",
+											"const jsonData = response.json();\r",
+											"const headers = response.headers;\r",
+											"\r",
+											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.expect(response).to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response is a JSON object', function () {\r",
+											"    pm.expect(jsonData).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the message property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the status property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('status');\r",
+											"});\r",
+											"\r",
+											"pm.test('Content-Type should header be application/JSON', function () {\r",
+											"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+											"});\r",
+											"\r",
+											"// FUNCTIONAL TESTS - Validate input and output values\r",
+											"\r",
+											"pm.test('message property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.message).to.eql('\\'username\\' is a required property');\r",
+											"});\r",
+											"\r",
+											"pm.test('status property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.status).to.eql('fail');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"user@tempmail.com\",\r\n    \"password\": \"pass17\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseUrl}}/users/v1/register",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"users",
+										"v1",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Try to register user without email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response;\r",
+											"const jsonData = response.json();\r",
+											"const headers = response.headers;\r",
+											"\r",
+											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.expect(response).to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response is a JSON object', function () {\r",
+											"    pm.expect(jsonData).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the message property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the status property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('status');\r",
+											"});\r",
+											"\r",
+											"pm.test('Content-Type should header be application/JSON', function () {\r",
+											"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+											"});\r",
+											"\r",
+											"// FUNCTIONAL TESTS - Validate input and output values\r",
+											"\r",
+											"pm.test('message property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.message).to.eql('\\'email\\' is a required property');\r",
+											"});\r",
+											"\r",
+											"pm.test('status property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.status).to.eql('fail');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\": \"pass17\",\r\n    \"username\": \"test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseUrl}}/users/v1/register",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"users",
+										"v1",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset database",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BaseUrl}}/createdb",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"createdb"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"item": [
+						{
+							"name": "Try to delete user by username as non-admin",
+							"item": [
+								{
+									"name": "Login as non-admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set('auth_token', pm.response.json().auth_token);\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"password\": \"{{password}}\",\r\n    \"username\": \"{{username}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/login",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete user by username",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 401', function () {\r",
+													"    pm.expect(response).to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response is a JSON object', function () {\r",
+													"    pm.expect(jsonData).to.be.an('object');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the status property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('status');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the message property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"});\r",
+													"\r",
+													"pm.test('Content-Type should header be application/JSON', function () {\r",
+													"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+													"});\r",
+													"\r",
+													"// FUNCTIONAL TESTS - Validate input and output values\r",
+													"\r",
+													"pm.test('status property has the appropriate value', function () {\r",
+													"    pm.expect(jsonData.status).to.eql('fail');\r",
+													"});\r",
+													"\r",
+													"pm.test('message property has the appropriate value', function () {\r",
+													"    pm.expect(jsonData.message).to.eql('Only Admins may delete users!');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{auth_token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/name1",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"name1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete user by username with POST method",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 405', function () {\r",
+													"    pm.expect(response).to.have.status(405);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{auth_token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/name1",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"name1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Delete user by username as Admin",
+							"item": [
+								{
+									"name": "Add user",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"user3@tempmail.com\",\r\n    \"password\": \"pass172\",\r\n    \"username\": \"name172\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/register",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Login as Admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set('auth_token', pm.response.json().auth_token);\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"password\": \"pass1\",\r\n    \"username\": \"admin\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/login",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete user by username",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 200', function () {\r",
+													"    pm.expect(response).to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response is a JSON object', function () {\r",
+													"    pm.expect(jsonData).to.be.an('object');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the status property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('status');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the message property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"});\r",
+													"\r",
+													"pm.test('Content-Type should header be application/JSON', function () {\r",
+													"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+													"});\r",
+													"\r",
+													"// FUNCTIONAL TESTS - Validate input and output values\r",
+													"\r",
+													"pm.test('status property has the appropriate value', function () {\r",
+													"    pm.expect(jsonData.status).to.eql('success');\r",
+													"});\r",
+													"\r",
+													"pm.test('message property has the appropriate value', function () {\r",
+													"    pm.expect(jsonData.message).to.eql('User deleted.');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{auth_token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/name172",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"name172"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete user by username again",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 404', function () {\r",
+													"    pm.expect(response).to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response is a JSON object', function () {\r",
+													"    pm.expect(jsonData).to.be.an('object');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the status property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('status');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the message property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"});\r",
+													"\r",
+													"pm.test('Content-Type should header be application/JSON', function () {\r",
+													"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+													"});\r",
+													"\r",
+													"// FUNCTIONAL TESTS - Validate input and output values\r",
+													"\r",
+													"pm.test('status property has the appropriate value', function () {\r",
+													"    pm.expect(jsonData.status).to.eql('fail');\r",
+													"});\r",
+													"\r",
+													"pm.test('message property has the appropriate value', function () {\r",
+													"    pm.expect(jsonData.message).to.eql('User not found!');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{auth_token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/name172",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"name172"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Delete user by username that is empty string as Admin",
+							"item": [
+								{
+									"name": "Login as Admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set('auth_token', pm.response.json().auth_token);\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"password\": \"pass1\",\r\n    \"username\": \"admin\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/login",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete user by username",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 405', function () {\r",
+													"    pm.expect(response).to.have.status(405);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Try to delete user by username without authentication",
+							"item": [
+								{
+									"name": "Delete user by username",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 401', function () {\r",
+													"    pm.expect(response).to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response is a JSON object', function () {\r",
+													"    pm.expect(jsonData).to.be.an('object');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the status property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('status');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the message property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"});\r",
+													"\r",
+													"pm.test('Content-Type should header be application/JSON', function () {\r",
+													"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+													"});\r",
+													"\r",
+													"// FUNCTIONAL TESTS - Validate input and output values\r",
+													"\r",
+													"pm.test('status property has the appropriate value', function () {\r",
+													"    pm.expect(jsonData.status).to.eql('fail');\r",
+													"});\r",
+													"\r",
+													"pm.test('message property has the appropriate value', function () {\r",
+													"    pm.expect(jsonData.message).to.eql('Invalid token. Please log in again.');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/name1",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"name1"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Try to delete user that does not exist by username",
+							"item": [
+								{
+									"name": "Login as Admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set('auth_token', pm.response.json().auth_token);\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"password\": \"pass1\",\r\n    \"username\": \"admin\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/login",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete user by username",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 404', function () {\r",
+													"    pm.expect(response).to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response is a JSON object', function () {\r",
+													"    pm.expect(jsonData).to.be.an('object');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the status property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('status');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the message property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"});\r",
+													"\r",
+													"pm.test('Content-Type should header be application/JSON', function () {\r",
+													"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+													"});\r",
+													"\r",
+													"// FUNCTIONAL TESTS - Validate input and output values\r",
+													"\r",
+													"pm.test('status property has the appropriate value', function () {\r",
+													"    pm.expect(jsonData.status).to.eql('fail');\r",
+													"});\r",
+													"\r",
+													"pm.test('message property has the appropriate value', function () {\r",
+													"    pm.expect(jsonData.message).to.eql('User not found!');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{auth_token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/nameX",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"nameX"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Reset database",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BaseUrl}}/createdb",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"createdb"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Retrieve",
+					"item": [
+						{
+							"name": "Retrieve existing user by username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response;\r",
+											"const jsonData = response.json();\r",
+											"const headers = response.headers;\r",
+											"\r",
+											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.expect(response).to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response is a JSON object', function () {\r",
+											"    pm.expect(jsonData).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the username property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('username');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the email property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('email');\r",
+											"});\r",
+											"\r",
+											"pm.test('Content-Type should header be application/JSON', function () {\r",
+											"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+											"});\r",
+											"\r",
+											"// FUNCTIONAL TESTS - Validate input and output values\r",
+											"\r",
+											"pm.test('username property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.username).to.eql(pm.environment.get('username'));\r",
+											"});\r",
+											"\r",
+											"pm.test('email property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.email).to.eql('mail1@mail.com');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BaseUrl}}/users/v1/{{username}}",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"users",
+										"v1",
+										"{{username}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve non-existing user by username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response;\r",
+											"const jsonData = response.json();\r",
+											"const headers = response.headers;\r",
+											"\r",
+											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.expect(response).to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response is a JSON object', function () {\r",
+											"    pm.expect(jsonData).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the message property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response has the status property', function () {\r",
+											"    pm.expect(jsonData).to.have.property('status');\r",
+											"});\r",
+											"\r",
+											"pm.test('Content-Type should header be application/JSON', function () {\r",
+											"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+											"});\r",
+											"\r",
+											"// FUNCTIONAL TESTS - Validate input and output values\r",
+											"\r",
+											"pm.test('message property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.message).to.eql('User not found');\r",
+											"});\r",
+											"\r",
+											"pm.test('status property has appropriate value', function () {\r",
+											"    pm.expect(jsonData.status).to.eql('fail');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BaseUrl}}/users/v1/fake",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"users",
+										"v1",
+										"fake"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update email",
+					"item": [
+						{
+							"name": "Update registered user email",
+							"item": [
+								{
+									"name": "Register new user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 200', function () {\r",
+													"    pm.expect(response).to.have.status(200);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"user@tempmail.com\",\r\n    \"password\": \"pass17\",\r\n    \"username\": \"name17\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/register",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Login as registered user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 200', function () {\r",
+													"    pm.expect(response).to.have.status(200);\r",
+													"    pm.environment.set('auth_token', jsonData.auth_token);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"password\": \"pass17\",\r\n    \"username\": \"name17\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/login",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update email",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 204', function () {\r",
+													"    pm.expect(response).to.have.status(204);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{auth_token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"user2@tempmail.com\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/name17/email",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"name17",
+												"email"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Confirm email update",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Email was updated', function () {\r",
+													"    pm.expect(response.json().email).to.be.equal('user2@tempmail.com');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/name17",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"name17"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Try to update registered user email without authentication",
+							"item": [
+								{
+									"name": "Update email",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 401', function () {\r",
+													"    pm.expect(response).to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response is a JSON object', function () {\r",
+													"    pm.expect(jsonData).to.be.an('object');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the message property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the status property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('status');\r",
+													"});\r",
+													"\r",
+													"pm.test('Content-Type should header be application/JSON', function () {\r",
+													"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+													"});\r",
+													"\r",
+													"// FUNCTIONAL TESTS - Validate input and output values\r",
+													"\r",
+													"pm.test('message property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.message).to.eql('Invalid token. Please log in again.');\r",
+													"});\r",
+													"\r",
+													"pm.test('status property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.status).to.eql('fail');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"user2@tempmail.com\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/name17/email",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"name17",
+												"email"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Reset database",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BaseUrl}}/createdb",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"createdb"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update password",
+					"item": [
+						{
+							"name": "Update registered user password",
+							"item": [
+								{
+									"name": "Register new user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 200', function () {\r",
+													"    pm.expect(response).to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response is a JSON object', function () {\r",
+													"    pm.expect(jsonData).to.be.an('object');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the message property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the status property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('status');\r",
+													"});\r",
+													"\r",
+													"pm.test('Content-Type should header be application/JSON', function () {\r",
+													"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+													"});\r",
+													"\r",
+													"// FUNCTIONAL TESTS - Validate input and output values\r",
+													"\r",
+													"pm.test('message property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.message).to.eql('Successfully registered. Login to receive an auth token.');\r",
+													"});\r",
+													"\r",
+													"pm.test('status property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.status).to.eql('success');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"user17@tempmail.com\",\r\n    \"password\": \"pass17\",\r\n    \"username\": \"name17\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/register",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Login as registered user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"\r",
+													"pm.test('Status code is 200', function () {\r",
+													"    pm.environment.set('auth_token', jsonData.auth_token);\r",
+													"    pm.expect(response).to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"password\": \"pass17\",\r\n  \"username\": \"name17\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/login",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update password",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 204', function () {\r",
+													"    pm.expect(response).to.have.status(204);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{auth_token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"password\": \"pass17+\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/name17/password",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"name17",
+												"password"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Confirm password update",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"\r",
+													"pm.test('Status code is 200', function () {\r",
+													"    pm.expect(response).to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"password\": \"pass17+\",\r\n  \"username\": \"name17\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/login",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"login"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Try to update registered user without authentication",
+							"item": [
+								{
+									"name": "Register new user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 200', function () {\r",
+													"    pm.expect(response).to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"// FUNCTIONAL TESTS - Validate input and output values\r",
+													"\r",
+													"pm.test('message property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.message).to.eql('Successfully registered. Login to receive an auth token.');\r",
+													"});\r",
+													"\r",
+													"pm.test('status property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.status).to.eql('success');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"user18@tempmail.com\",\r\n    \"password\": \"pass18\",\r\n    \"username\": \"name18\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/register",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Login as registered user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"\r",
+													"pm.test('Status code is 200', function () {\r",
+													"    pm.environment.set('auth_token', jsonData.auth_token);\r",
+													"    pm.expect(response).to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"password\": \"pass18\",\r\n  \"username\": \"name18\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/login",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update password",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 401', function () {\r",
+													"    pm.expect(response).to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response is a JSON object', function () {\r",
+													"    pm.expect(jsonData).to.be.an('object');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the message property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the status property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('status');\r",
+													"});\r",
+													"\r",
+													"pm.test('Content-Type should header be application/JSON', function () {\r",
+													"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+													"});\r",
+													"\r",
+													"// FUNCTIONAL TESTS - Validate input and output values\r",
+													"\r",
+													"pm.test('message property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.message).to.eql('Invalid token. Please log in again.');\r",
+													"});\r",
+													"\r",
+													"pm.test('status property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.status).to.eql('fail');\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"password\": \"pass18+\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/name18/password",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"name18",
+												"password"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Try to update registered user with invalid password",
+							"item": [
+								{
+									"name": "Register new user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 200', function () {\r",
+													"    pm.expect(response).to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response is a JSON object', function () {\r",
+													"    pm.expect(jsonData).to.be.an('object');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the message property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the status property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('status');\r",
+													"});\r",
+													"\r",
+													"pm.test('Content-Type should header be application/JSON', function () {\r",
+													"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+													"});\r",
+													"\r",
+													"// FUNCTIONAL TESTS - Validate input and output values\r",
+													"\r",
+													"pm.test('message property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.message).to.eql('Successfully registered. Login to receive an auth token.');\r",
+													"});\r",
+													"\r",
+													"pm.test('status property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.status).to.eql('success');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"user19@tempmail.com\",\r\n    \"password\": \"pass19\",\r\n    \"username\": \"name19\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/register",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Login as registered user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"\r",
+													"pm.test('Status code is 200', function () {\r",
+													"    pm.environment.set('auth_token', jsonData.auth_token);\r",
+													"    pm.expect(response).to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"password\": \"pass19\",\r\n  \"username\": \"name19\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/login",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update password with empty body",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 400', function () {\r",
+													"    pm.expect(response).to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response is a JSON object', function () {\r",
+													"    pm.expect(jsonData).to.be.an('object');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the status property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('status');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the type property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('type');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the detail property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('detail');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the title property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('title');\r",
+													"});\r",
+													"\r",
+													"pm.test('Content-Type should header be application/problem+json', function () {\r",
+													"    pm.expect(headers.get('Content-Type')).to.eql('application/problem+json');\r",
+													"});\r",
+													"\r",
+													"// FUNCTIONAL TESTS - Validate input and output values\r",
+													"\r",
+													"pm.test('detail property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.detail).to.eql(\"None is not of type 'object'\");\r",
+													"});\r",
+													"\r",
+													"pm.test('status property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.status).to.eql(400);\r",
+													"});\r",
+													"\r",
+													"pm.test('title property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.title).to.eql(\"Bad Request\");\r",
+													"});\r",
+													"\r",
+													"pm.test('type property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.type).to.eql('about:blank');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{auth_token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/name19/password",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"name19",
+												"password"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update password as empty string",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"const headers = response.headers;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 400', function () {\r",
+													"    pm.expect(response).to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response is a JSON object', function () {\r",
+													"    pm.expect(jsonData).to.be.an('object');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the status property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('status');\r",
+													"});\r",
+													"\r",
+													"pm.test('Response has the message property', function () {\r",
+													"    pm.expect(jsonData).to.have.property('message');\r",
+													"});\r",
+													"\r",
+													"pm.test('Content-Type should header be application/json', function () {\r",
+													"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+													"});\r",
+													"\r",
+													"// FUNCTIONAL TESTS - Validate input and output values\r",
+													"\r",
+													"pm.test('message property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.message).to.eql(\"Malformed Data\");\r",
+													"});\r",
+													"\r",
+													"pm.test('status property has appropriate value', function () {\r",
+													"    pm.expect(jsonData.status).to.eql(\"fail\");\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{auth_token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"password\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/name19/password",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"name19",
+												"password"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Reset database",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BaseUrl}}/createdb",
+									"host": [
+										"{{BaseUrl}}"
+									],
+									"path": [
+										"createdb"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Db-init",
+			"item": [
+				{
+					"name": "Create and populates the database with dummy data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/createdb",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"createdb"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,459 @@
+{
+	"info": {
+		"_postman_id": "e2991fff-f0f4-4623-9105-6debe25dd398",
+		"name": "VAmPI-Books-Integration-Tests-Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3304285"
+	},
+	"item": [
+		{
+			"name": "Retrieve added book",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"pm.environment.set('auth_token', response.auth_token);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"{{password}}\",\r\n    \"username\": \"{{username}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/users/v1/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.expect(response).to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"book_title\": \"temp\",\r\n  \"secret\": \"secret\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/books/v1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books",
+								"v1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve added book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const bookTitle = 'temp';\r",
+									"const userName = pm.environment.get('username');\r",
+									"const secret = 'secret';\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.expect(response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"pm.test('book_title property is not empty', function () {\r",
+									"    pm.expect(jsonData.book_title).to.be.equal(bookTitle);\r",
+									"});\r",
+									"\r",
+									"pm.test('owner property is not empty', function () {\r",
+									"    pm.expect(jsonData.owner).to.be.equal(userName);\r",
+									"});\r",
+									"\r",
+									"pm.test('secret property is not empty', function () {\r",
+									"    pm.expect(jsonData.secret).to.be.equal(secret);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/books/v1/temp",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books",
+								"v1",
+								"temp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset database",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/createdb",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"createdb"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"\r",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Register user - Integration tests",
+			"item": [
+				{
+					"name": "Register user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{register_user_email}}\",\r\n  \"password\": \"{{register_user_password}}\",\r\n  \"username\": \"{{register_user_name}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/users/v1/register",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"v1",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login using registered user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.environment.set('auth_token', jsonData.auth_token);\r",
+									"    pm.expect(response).to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"{{register_user_password}}\",\r\n    \"username\": \"{{register_user_name}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/users/v1/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve registered user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.expect(response).to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/users/v1/{{register_user_name}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"v1",
+								"{{register_user_name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update registered user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 204', function () {\r",
+									"    pm.expect(response).to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"benny2@tempmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/users/v1/{{register_user_name}}/email",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"v1",
+								"{{register_user_name}}",
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve registered after update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.expect(response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"pm.test('username property has appropriate value', function () {\r",
+									"    pm.expect(jsonData.username).to.eql(\"Benny\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/users/v1/{{register_user_name}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"v1",
+								"{{register_user_name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset database Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/createdb",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"createdb"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

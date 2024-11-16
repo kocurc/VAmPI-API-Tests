@@ -1,0 +1,746 @@
+{
+	"info": {
+		"_postman_id": "275c4d29-b81f-4b2f-ab05-cad3b15bcb21",
+		"name": "VAmPI-Books-Authorization-Tests-Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3304285"
+	},
+	"item": [
+		{
+			"name": "Add new book",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"pm.environment.set('auth_token', response.auth_token);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"{{password}}\",\r\n    \"username\": \"{{username}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/users/v1/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const headers = response.headers;\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.expect(response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Response is a JSON object', function () {\r",
+									"    pm.expect(jsonData).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the message property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the status property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"});\r",
+									"\r",
+									"pm.test('Content-Type should header be application/JSON', function () {\r",
+									"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"// FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"pm.test('message property has appropriate value', function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Book has been added.');\r",
+									"});\r",
+									"\r",
+									"pm.test('status property has appropriate value', function () {\r",
+									"    pm.expect(jsonData.status).to.eql('success');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"book_title\": \"{{book_title_default}}\",\r\n  \"secret\": \"{{secret_default}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/books/v1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books",
+								"v1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Book already exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const headers = response.headers;\r",
+									"const parameterSets = [\r",
+									"    { \"book_title\": \"bookTitle72\", \"expected_status_code\": 400 }\r",
+									"];\r",
+									"\r",
+									"parameterSets.forEach(set => {\r",
+									"\r",
+									"    // CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"    pm.test('Status code is ${set.book_title}', function () {\r",
+									"        pm.expect(response).to.have.status(set.expected_status_code);\r",
+									"    });\r",
+									"\r",
+									"    pm.test('Response is a JSON object', function () {\r",
+									"        pm.expect(jsonData).to.be.an('object');\r",
+									"    });\r",
+									"\r",
+									"    pm.test('Response has the message property', function () {\r",
+									"        pm.expect(jsonData).to.have.property('message');\r",
+									"    });\r",
+									"\r",
+									"    pm.test('Response has the status property', function () {\r",
+									"        pm.expect(jsonData).to.have.property('status');\r",
+									"    });\r",
+									"\r",
+									"    pm.test('Content-Type should header be application/JSON', function () {\r",
+									"        pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+									"    });\r",
+									"\r",
+									"    // FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"    pm.test('message property has appropriate value', function () {\r",
+									"        pm.expect(jsonData.message).to.eql('Book Already exists!');\r",
+									"    });\r",
+									"\r",
+									"    pm.test('status property has appropriate value', function () {\r",
+									"        pm.expect(jsonData.status).to.eql('fail');\r",
+									"    });\r",
+									"    \r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"book_title\": \"{{book_title_default}}\",\r\n  \"secret\": \"{{secret_default}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/books/v1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books",
+								"v1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves book by title along with secret",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const headers = response.headers;\r",
+									"const bookTitle = pm.environment.get('book_title_default');\r",
+									"const userName = pm.environment.get('username');\r",
+									"const secret = pm.environment.get('secret_default');\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.expect(response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Response is a JSON object', function () {\r",
+									"    pm.expect(jsonData).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response object contains book_title, owner and secret properties\", function () {\r",
+									"    pm.expect(jsonData).to.have.property('book_title');\r",
+									"    pm.expect(jsonData).to.have.property('owner');\r",
+									"    pm.expect(jsonData).to.have.property('secret');\r",
+									"});\r",
+									"\r",
+									"// FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"pm.test('book_title property is not empty', function () {\r",
+									"    pm.expect(jsonData.book_title).to.be.equal(bookTitle);\r",
+									"});\r",
+									"\r",
+									"pm.test('owner property is not empty', function () {\r",
+									"    pm.expect(jsonData.owner).to.be.equal(userName);\r",
+									"});\r",
+									"\r",
+									"pm.test('secret property is not empty', function () {\r",
+									"    pm.expect(jsonData.secret).to.be.equal(secret);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/books/v1/{{book_title_default}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books",
+								"v1",
+								"{{book_title_default}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const headers = response.headers;\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.expect(response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('Response is a JSON object', function () {\r",
+									"    pm.expect(jsonData).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the message property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response has the status property', function () {\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"});\r",
+									"\r",
+									"pm.test('Content-Type should header be application/JSON', function () {\r",
+									"    pm.expect(headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"// FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"pm.test('message property has appropriate value', function () {\r",
+									"    pm.expect(jsonData.message).to.eql('Invalid token. Please log in again.');\r",
+									"});\r",
+									"\r",
+									"pm.test('status property has appropriate value', function () {\r",
+									"    pm.expect(jsonData.status).to.eql('fail');\r",
+									"});\r",
+									"    "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token_invalid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"book_title\": \"{{book_title}}\",\r\n  \"secret\": \"{{secret}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/books/v1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books",
+								"v1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset database",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/createdb",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"createdb"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "1. Data file path: \"C:\\Users\\kordi\\Desktop\\VAmPI\\VAmPI-Books-Authorization-Collection\\Add new book.csv\"\n2. Run collection in given order."
+		},
+		{
+			"name": "Retrieves non-existent book by title",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"pm.environment.set('auth_token', response.auth_token);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"{{password}}\",\r\n    \"username\": \"{{username}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/users/v1/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves non-existent book by title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const headers = response.headers;\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 404', function () {\r",
+									"    pm.expect(response).to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('Response is a JSON object', function () {\r",
+									"    pm.expect(jsonData).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response object contains nessage and status properties\", function () {\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"});\r",
+									"\r",
+									"// FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"pm.test('message property is not empty', function () {\r",
+									"    pm.expect(jsonData.message).to.be.equal('Book not found!');\r",
+									"});\r",
+									"\r",
+									"pm.test('status property is not empty', function () {\r",
+									"        pm.expect(jsonData.status).to.be.equal('fail');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/books/v1/{{book_title_invalid}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books",
+								"v1",
+								"{{book_title_invalid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Retrieves book by title along with secret without authorization",
+			"item": [
+				{
+					"name": "Retrieves book by title along with secret without authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const headers = response.headers;\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 401', function () {\r",
+									"    pm.expect(response).to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test('Response is a JSON object', function () {\r",
+									"    pm.expect(jsonData).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response object contains status and message properties\", function () {\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"});\r",
+									"\r",
+									"// FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"pm.test('status property is not empty', function () {\r",
+									"    pm.expect(jsonData.status).to.be.equal('fail');\r",
+									"});\r",
+									"\r",
+									"pm.test('owner message is not empty', function () {\r",
+									"    pm.expect(jsonData.message).to.be.equal('Invalid token. Please log in again.');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token_invalid}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/books/v1/{{book_title_default}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books",
+								"v1",
+								"{{book_title_default}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Retrieves another user's book by title along with secret",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"pm.environment.set('auth_token', response.auth_token);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"{{password}}\",\r\n    \"username\": \"{{username}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/users/v1/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves another user's book by title along with secret",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// VULNERABILITY: Wadliwa autoryzacja na poziomie obiektu (BOLA):\r",
+									"\r",
+									"const response = pm.response;\r",
+									"const jsonData = response.json();\r",
+									"const headers = response.headers;\r",
+									"\r",
+									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+									"\r",
+									"pm.test('Status code is 404', function () {\r",
+									"    pm.expect(response).to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('Response is a JSON object', function () {\r",
+									"    pm.expect(jsonData).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"// FUNCTIONAL TESTS - Validate input and output values\r",
+									"\r",
+									"// Wadliwa autoryzacja na poziomie obiektu (BOLA):\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/books/v1/bookTitle23",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books",
+								"v1",
+								"bookTitle23"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
