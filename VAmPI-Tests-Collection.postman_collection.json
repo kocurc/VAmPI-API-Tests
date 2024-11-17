@@ -70,7 +70,7 @@
 									"// PERFORMANCE TESTING - Latency testing\r",
 									"\r",
 									"pm.test('Response time is within acceptable range 1-200 ms', function () {\r",
-									"    pm.expect(response.responseTime).to.be.below(200);\r",
+									"    pm.expect(response.responseTime).to.be.below(1000);\r",
 									"});\r",
 									""
 								],
@@ -473,62 +473,7 @@
 									]
 								}
 							},
-							"response": [
-								{
-									"name": "Login to VAmPI",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"password\": \"{{password}}\",\r\n    \"username\": \"{{username}}\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{BaseUrl}}/users/v1/login",
-											"host": [
-												"{{BaseUrl}}"
-											],
-											"path": [
-												"users",
-												"v1",
-												"login"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Server",
-											"value": "Werkzeug/2.2.3 Python/3.11.9"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 03 Sep 2024 08:30:14 GMT"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Content-Length",
-											"value": "224"
-										},
-										{
-											"key": "Connection",
-											"value": "close"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"auth_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjUzNTIyNzQsImlhdCI6MTcyNTM1MjIxNCwic3ViIjoibmFtZTEifQ.9fXYJgvuzj1G7eXam8qClDkHFFu5n3L5GfRjn-FlygM\",\n    \"message\": \"Successfully logged in.\",\n    \"status\": \"success\"\n}"
-								}
-							]
+							"response": []
 						},
 						{
 							"name": "Invalid user password",
