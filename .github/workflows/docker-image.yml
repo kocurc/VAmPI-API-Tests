@@ -33,7 +33,7 @@ jobs:
     - name: Run authentication tests collection
       uses: matt-ball/newman-action@v2.0.0
       with:
-        collection: VAmPI-LoginAndJwtToken-Tests-Collection.postman_collection.json.json
+        collection: VAmPI-LoginAndJwtToken-Tests-Collection.postman_collection.json
         environment: VamPI-Environment.postman_environment.json
 
     - name: Run integration tests collection
