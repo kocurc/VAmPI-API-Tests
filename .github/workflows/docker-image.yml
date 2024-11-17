@@ -31,6 +31,9 @@ jobs:
       needs: docker
 
       steps:
+        - name: List files
+          run: ls
+
         - name: Newman Action
           uses: matt-ball/newman-action@v2.0.0
           with:
