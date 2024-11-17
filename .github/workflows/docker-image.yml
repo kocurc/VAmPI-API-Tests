@@ -26,12 +26,6 @@ jobs:
         --publish 5000:5000 \
         vampi_image
 
-    - name: Run base tests collection
-      uses: matt-ball/newman-action@v2.0.0
-      with:
-        collection: VAmPI-Tests-Collection.postman_collection.json
-        environment: VamPI-Environment.postman_environment.json
-
     - name: Run authentication tests collection
       uses: matt-ball/newman-action@v2.0.0
       with:
@@ -48,4 +42,10 @@ jobs:
       uses: matt-ball/newman-action@v2.0.0
       with:
         collection: VAmPI-Books-Authorization-Tests-Collection.postman_collection.json
+        environment: VamPI-Environment.postman_environment.json
+
+    - name: Run base tests collection
+      uses: matt-ball/newman-action@v2.0.0
+      with:
+        collection: VAmPI-Tests-Collection.postman_collection.json
         environment: VamPI-Environment.postman_environment.json
