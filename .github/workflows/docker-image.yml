@@ -26,6 +26,10 @@ jobs:
         --publish 5000:5000 \
         vampi_image
 
+    - name: List files
+      run: |
+        ls
+
     - name: Run authentication tests collection
       uses: matt-ball/newman-action@v2.0.0
       with:
