@@ -283,7 +283,7 @@
 									"const response = pm.response;\r",
 									"const jsonData = response.json();\r",
 									"const headers = response.headers;\r",
-									"const books = jsonData.Books;\r",
+									"// const books = jsonData.Books;\r",
 									"\r",
 									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
 									"// Unstacle on CI\r",
