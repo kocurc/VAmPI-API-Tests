@@ -5,7 +5,12 @@
 
 ## List of application API Vulnerabilities found and their OWASP equivaltens:
 - ***API8:2019 - Injection***:
-  - SQLi Injection
+  - SQL Injection vulnerability found with **sqlmap** tool:
+  ```bash
+    sqlmap --url="http://localhost:5000/users/v1/name" -p name --dump
+  ```
+  ![Database dump](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/sqlmap.png)
+
 
 - ***API5:2019 - Broken Function Level Authorization***:
   - Unauthorized Password Change
