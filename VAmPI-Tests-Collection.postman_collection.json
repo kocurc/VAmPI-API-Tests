@@ -184,6 +184,7 @@
 									"\r",
 									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
 									"\r",
+									"// 405 HTTP error code should be returned\r",
 									"pm.test('Status code is 200', function () {\r",
 									"    pm.expect(response).to.have.status(200);\r",
 									"});\r",
