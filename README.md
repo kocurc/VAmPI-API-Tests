@@ -20,7 +20,8 @@
 
 - ***API6:2019 - Mass Assignment***:
   - Mass Assignment vulnerability for user registration with extra admin: true value
-  ![Publicly available debug endpoint](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/massAssignment.png)
+  ![Adding extra admin-true parameter](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/extraAdminParameter.png) 
+  ![Validating mass assignment](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/massAssignment.png)
 
 
 - ***API9:2019 - Improper Assets Management***:
