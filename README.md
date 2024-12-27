@@ -19,7 +19,9 @@
   - Broken Object Level Authorization
 
 - ***API6:2019 - Mass Assignment***:
-  - Mass Assignment
+  - Mass Assignment vulnerability for user registration with extra admin: true value
+  ![Publicly available debug endpoint](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/massAssignment.png)
+
 
 - ***API9:2019 - Improper Assets Management***:
   - Excessive Data Exposure through debug endpoint
@@ -45,7 +47,7 @@
     - ***Conclusion***: **random** is the plaintext key or password used to generate the signature (HMAC) for the JWT.
 
 - ***API7:2019 - Security Misconfiguration***:
-  - 
+  - Server revelas technology being used data
     ```javascript
     pm.test('Server header does not reveal used technologies', function () 
     {
@@ -53,7 +55,7 @@
         pm.expect(headers.get('Server')).does.not.contain('Python/');
     });
     ```
-    - HEAD or other unnecessary HTTP verbs should be disabled:
+  - HEAD or other unnecessary HTTP verbs should be disabled:
   ![405 error code](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/405.png)
 
 - ***API10:2019 - Insufficient Logging & Monitoring***:
