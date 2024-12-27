@@ -48,7 +48,7 @@
     });
     ```
     - HEAD or other unnecessary HTTP verbs should be disabled:
-  ![405 error code]([/assets/images/tux.png](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/405.png))
+  ![405 error code](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/405.png)
 
 - ***API10:2019 - Insufficient Logging & Monitoring***:
   - There is no record of which IP address, user agent, or timestamp is associated with each request
