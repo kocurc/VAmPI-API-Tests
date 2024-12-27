@@ -61,3 +61,23 @@
 
 - ***API10:2019 - Insufficient Logging & Monitoring***:
   - There is no record of which IP address, user agent, or timestamp is associated with each request
+
+
+
+
+---------------------------
+
+- ***API5:2019 - Broken Function Level Authorization***:
+  - Unauthorized Password Change
+
+- ***API1:2019 - Broken Object Level Authorization***:
+  - Broken Object Level Authorization
+
+- ***API3:2019 - Excessive Data Exposure***:
+  - User and Password Enumeration
+
+- ***API4:2019 - Lack of Resources & Rate Limiting***:
+  - RegexDOS (Denial of Service)
+
+- ***API4:2019 - Lack of Resources & Rate Limiting***:
+  - Lack of Resources & Rate Limiting
