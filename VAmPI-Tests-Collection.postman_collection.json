@@ -359,9 +359,9 @@
 										"exec": [
 											"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
 											"\r",
-											"// VULNERABILITY Wycieki informacji:\r",
+											"// VULNERABILITY Debug endpoint:\r",
 											"/*\r",
-											"pm.test('Status code is 200', function () {\r",
+											"pm.test('Status code is 403', function () {\r",
 											"    pm.expect(pm.response).to.have.status(403);\r",
 											"});\r",
 											"*/"
