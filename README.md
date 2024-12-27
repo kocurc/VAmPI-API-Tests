@@ -18,6 +18,7 @@
 
 - ***API9:2019 - Improper Assets Management***:
   - Excessive Data Exposure through debug endpoint
+  ![Publicly available debug endpoint](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/debug%20endpoint.png)
 
 - ***API3:2019 - Excessive Data Exposure***:
   - User and Password Enumeration
