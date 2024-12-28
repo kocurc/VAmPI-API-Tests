@@ -2566,6 +2566,156 @@
 							]
 						},
 						{
+							"name": "Update another registered user's password",
+							"item": [
+								{
+									"name": "Login as registered user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"\r",
+													"pm.test('Status code is 200', function () {\r",
+													"    pm.environment.set('auth_token', jsonData.auth_token);\r",
+													"    pm.expect(response).to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"password\": \"pass1\",\r\n  \"username\": \"name1\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/login",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update password",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"\r",
+													"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
+													"\r",
+													"pm.test('Status code is 204', function () {\r",
+													"    pm.expect(response).to.have.status(204);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{auth_token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"password\": \"pass17+\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/name1/password",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"name1",
+												"password"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Confirm password update",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response;\r",
+													"const jsonData = response.json();\r",
+													"\r",
+													"pm.test('Status code is 200', function () {\r",
+													"    pm.expect(response).to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"password\": \"pass17+\",\r\n  \"username\": \"name1\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BaseUrl}}/users/v1/login",
+											"host": [
+												"{{BaseUrl}}"
+											],
+											"path": [
+												"users",
+												"v1",
+												"login"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "Try to update registered user without authentication",
 							"item": [
 								{
@@ -3100,6 +3250,31 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

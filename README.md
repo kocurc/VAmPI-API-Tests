@@ -13,7 +13,8 @@
 
 
 - ***API5:2019 - Broken Function Level Authorization***:
-  - Unauthorized Password Change
+  - Unauthorized Password Change of anthor registered user
+  ![BFLA for another user's password](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/bfla.png) 
 
 - ***API1:2019 - Broken Object Level Authorization***:
   - Broken Object Level Authorization when checking another user's secrets
