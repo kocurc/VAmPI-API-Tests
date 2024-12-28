@@ -11,7 +11,6 @@
   ```
   ![Database dump](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/sqlmap.png)
 
-
 - ***API5:2019 - Broken Function Level Authorization***:
   - Unauthorized Password Change of anthor registered user
   ![BFLA for another user's password](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/bfla.png) 
@@ -31,13 +30,11 @@
   ![Publicly available debug endpoint](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/debug%20endpoint.png)
 
 - ***API3:2019 - Excessive Data Exposure***:
-  - User and Password Enumeration
+  - As the consequence of the SQL database dump we can enumerate Users data
 
 - ***API4:2019 - Lack of Resources & Rate Limiting***:
-  - RegexDOS (Denial of Service)
-
-- ***API4:2019 - Lack of Resources & Rate Limiting***:
-  - Lack of Resources & Rate Limiting
+  - There are no requests limits set, which makes brute force attacks for login possible
+  ![Burp Suite brute force attack](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/burp.png)
 
 - ***API2:2019 - Broken User Authentication***:
     - JWT authentication bypass via weak signing key
@@ -63,12 +60,3 @@
 
 - ***API10:2019 - Insufficient Logging & Monitoring***:
   - There is no record of which IP address, user agent, or timestamp is associated with each request
----------------------------
-- ***API5:2019 - Broken Function Level Authorization***:
-  - Unauthorized Password Change +
-- ***API3:2019 - Excessive Data Exposure***:
-  - User and Password Enumeration + 
-- ***API4:2019 - Lack of Resources & Rate Limiting***:
-  - RegexDOS (Denial of Service) + 
-- ***API4:2019 - Lack of Resources & Rate Limiting***:
-  - Lack of Resources & Rate Limiting +
