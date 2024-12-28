@@ -681,14 +681,13 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"// VULNERABILITY: Wadliwa autoryzacja na poziomie obiektu (BOLA):\r",
-									"\r",
 									"const response = pm.response;\r",
 									"const jsonData = response.json();\r",
 									"const headers = response.headers;\r",
 									"\r",
 									"// CONTRACT TESTING - Checking OpenAPI/Swagger contract\r",
 									"\r",
+									"// VULNERABILITY: Broken Object Level Authorization (BOLA):\r",
 									"pm.test('Status code is 404', function () {\r",
 									"    pm.expect(response).to.have.status(404);\r",
 									"});\r",
@@ -696,10 +695,6 @@
 									"pm.test('Response is a JSON object', function () {\r",
 									"    pm.expect(jsonData).to.be.an('object');\r",
 									"});\r",
-									"\r",
-									"// FUNCTIONAL TESTS - Validate input and output values\r",
-									"\r",
-									"// Wadliwa autoryzacja na poziomie obiektu (BOLA):\r",
 									""
 								],
 								"type": "text/javascript",

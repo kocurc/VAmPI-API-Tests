@@ -16,7 +16,8 @@
   - Unauthorized Password Change
 
 - ***API1:2019 - Broken Object Level Authorization***:
-  - Broken Object Level Authorization
+  - Broken Object Level Authorization when checking another user's secrets
+  ![BOLA for another user's secrets](https://raw.githubusercontent.com/kocurc/VAmPI-API-Tests/refs/heads/main/Pictures/bola.png) 
 
 - ***API6:2019 - Mass Assignment***:
   - Mass Assignment vulnerability for user registration with extra admin: true value
@@ -61,23 +62,12 @@
 
 - ***API10:2019 - Insufficient Logging & Monitoring***:
   - There is no record of which IP address, user agent, or timestamp is associated with each request
-
-
-
-
 ---------------------------
-
 - ***API5:2019 - Broken Function Level Authorization***:
-  - Unauthorized Password Change
-
-- ***API1:2019 - Broken Object Level Authorization***:
-  - Broken Object Level Authorization
-
+  - Unauthorized Password Change +
 - ***API3:2019 - Excessive Data Exposure***:
-  - User and Password Enumeration
-
+  - User and Password Enumeration + 
 - ***API4:2019 - Lack of Resources & Rate Limiting***:
-  - RegexDOS (Denial of Service)
-
+  - RegexDOS (Denial of Service) + 
 - ***API4:2019 - Lack of Resources & Rate Limiting***:
-  - Lack of Resources & Rate Limiting
+  - Lack of Resources & Rate Limiting +
